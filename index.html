@@ -1,0 +1,85 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Highest Grossing Films - Interactive Database</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <h1>🎬 Highest Grossing Films</h1>
+            <p>Interactive database of the world's most successful movies</p>
+        </header>
+
+        <!-- Statistics Section -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-value" id="totalFilms">0</div>
+                <div class="stat-label">Total Films</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalBoxOffice">$0</div>
+                <div class="stat-label">Total Box Office</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avgBoxOffice">$0</div>
+                <div class="stat-label">Average Box Office</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="uniqueDirectors">0</div>
+                <div class="stat-label">Unique Directors</div>
+            </div>
+        </div>
+
+        <!-- Controls Section -->
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 Search by title, director, or country...">
+            </div>
+            <div class="filters">
+                <select id="yearFilter">
+                    <option value="all">All Years</option>
+                </select>
+                <select id="sortBy">
+                    <option value="box_office_desc">Sort by Box Office (Highest)</option>
+                    <option value="box_office_asc">Sort by Box Office (Lowest)</option>
+                    <option value="year_desc">Sort by Year (Newest)</option>
+                    <option value="year_asc">Sort by Year (Oldest)</option>
+                    <option value="title_asc">Sort by Title (A-Z)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Films Table -->
+        <div class="table-container">
+            <table id="filmsTable">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Year</th>
+                        <th>Director</th>
+                        <th>Box Office</th>
+                        <th>Country</th>
+                    </tr>
+                </thead>
+                <tbody id="filmsTableBody">
+                    <tr>
+                        <td colspan="5" class="loading">Loading films data...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Data source: Wikipedia - Highest Grossing Films | Updated: <span id="updateDate"></span></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
