@@ -31,7 +31,7 @@ async function loadData() {
         console.error('Error loading data:', error);
         document.getElementById('filmsTableBody').innerHTML = `
             <tr>
-                <td colspan="6" class="loading">
+                <td colspan="8" class="loading">
                     ❌ Error loading data. Please check the JSON file.
                 </td>
             </tr>
@@ -39,29 +39,73 @@ async function loadData() {
     }
 }
 
+// Calculate standard deviation
+function calculateStdDev(values) {
+    const n = values.length;
+    if (n === 0) return 0;
+    
+    const mean = values.reduce((a, b) => a + b, 0) / n;
+    const squaredDiffs = values.map(value => Math.pow(value - mean, 2));
+    const variance = squaredDiffs.reduce((a, b) => a + b, 0) / n;
+    
+    return Math.sqrt(variance);
+}
+
 // Update statistics displays
 function updateStatistics() {
     const totalFilms = allFilms.length;
-    const totalRevenue = allFilms.reduce((sum, film) => sum + (film.box_office || 0), 0);
+    
+    // Revenue statistics
+    const revenues = allFilms.map(f => f.box_office || 0).filter(r => r > 0);
+    const totalRevenue = revenues.reduce((sum, r) => sum + r, 0);
     const avgRevenue = totalFilms > 0 ? totalRevenue / totalFilms : 0;
+    const stdRevenue = calculateStdDev(revenues);
+    
+    // Runtime statistics
+    const runtimes = allFilms.map(f => f.running_time).filter(r => r && r > 0);
+    const avgRuntime = runtimes.length > 0 ? runtimes.reduce((a, b) => a + b, 0) / runtimes.length : 0;
+    const minRuntime = runtimes.length > 0 ? Math.min(...runtimes) : 0;
+    const maxRuntime = runtimes.length > 0 ? Math.max(...runtimes) : 0;
+    const stdRuntime = calculateStdDev(runtimes);
+    
+    // Unique values for about section
     const uniqueDirectors = new Set(allFilms.map(f => f.director).filter(d => d && d !== 'Unknown')).size;
     const uniqueCountries = new Set(allFilms.map(f => f.country).filter(c => c && c !== 'Unknown')).size;
+    const uniqueLanguages = new Set(allFilms.map(f => f.language).filter(l => l && l !== 'Unknown')).size;
     
-    // Hero section stats
+    // Hero section - Revenue stats
     document.getElementById('heroTotalFilms').textContent = totalFilms;
     document.getElementById('heroTotalRevenue').textContent = formatCurrency(totalRevenue);
     document.getElementById('heroAvgRevenue').textContent = formatCurrency(avgRevenue);
+    document.getElementById('heroStdRevenue').textContent = formatCurrency(stdRevenue);
+    
+    // Hero section - Runtime stats
+    document.getElementById('heroAvgRuntime').textContent = Math.round(avgRuntime);
+    document.getElementById('heroMinRuntime').textContent = minRuntime;
+    document.getElementById('heroMaxRuntime').textContent = maxRuntime;
+    document.getElementById('heroStdRuntime').textContent = Math.round(stdRuntime);
     
     // About section stats
     document.getElementById('aboutTotalFilms').textContent = totalFilms;
     document.getElementById('aboutDirectors').textContent = uniqueDirectors;
     document.getElementById('aboutCountries').textContent = uniqueCountries;
+    document.getElementById('aboutLanguages').textContent = uniqueLanguages;
 }
 
 // Format currency
 function formatCurrency(value) {
     if (!value || value === 0) return '$0';
     return '$' + value.toLocaleString();
+}
+
+// Format runtime
+function formatRuntime(minutes) {
+    if (!minutes || minutes === 0) return 'N/A';
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    if (hours === 0) return `${mins} min`;
+    if (mins === 0) return `${hours}h`;
+    return `${hours}h ${mins}m`;
 }
 
 // Populate year filter
@@ -89,7 +133,8 @@ function filterAndDisplay() {
         const matchesSearch = searchTerm === '' ||
             (film.title && film.title.toLowerCase().includes(searchTerm)) ||
             (film.director && film.director.toLowerCase().includes(searchTerm)) ||
-            (film.country && film.country.toLowerCase().includes(searchTerm));
+            (film.country && film.country.toLowerCase().includes(searchTerm)) ||
+            (film.language && film.language.toLowerCase().includes(searchTerm));
         
         const matchesYear = yearFilter === 'all' || film.release_year == yearFilter;
         
@@ -113,6 +158,14 @@ function filterAndDisplay() {
         case 'title_asc':
             filtered.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
             break;
+        case 'runtime_desc':
+            filtered.sort((a, b) => (b.running_time || 0) - (a.running_time || 0));
+            break;
+        case 'runtime_asc':
+            filtered.sort((a, b) => (a.running_time || 0) - (b.running_time || 0));
+            break;
+        default:
+            filtered.sort((a, b) => (b.box_office || 0) - (a.box_office || 0));
     }
     
     // Update results count
@@ -132,7 +185,7 @@ function displayFilms(films, startIndex) {
     const tbody = document.getElementById('filmsTableBody');
     
     if (films.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="loading">No films found matching your criteria.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8" class="loading">No films found matching your criteria.</td></tr>';
         return;
     }
     
@@ -144,12 +197,15 @@ function displayFilms(films, startIndex) {
             <td>${escapeHtml(film.director || 'Unknown')}</td>
             <td class="text-success">${formatCurrency(film.box_office)}</td>
             <td>${escapeHtml(film.country || 'Unknown')}</td>
+            <td class="language-text">${escapeHtml(film.language || 'Unknown')}</td>
+            <td><span class="runtime-badge">${formatRuntime(film.running_time)}</span></td>
         </tr>
     `).join('');
 }
 
 // Escape HTML to prevent XSS
 function escapeHtml(text) {
+    if (!text) return '';
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
@@ -162,6 +218,8 @@ function updatePagination(totalItems) {
     
     // Clear existing
     paginationDiv.innerHTML = '';
+    
+    if (totalPages === 0) return;
     
     // Show limited page numbers
     const maxVisible = 5;
@@ -232,7 +290,7 @@ function setupEventListeners() {
     
     // Table header sorting
     const headers = document.querySelectorAll('.films-table th');
-    const sortOptions = ['title_asc', 'year_desc', 'box_office_desc', 'country'];
+    const sortOptions = ['title_asc', 'year_desc', 'box_office_desc', 'runtime_desc'];
     headers.forEach((header, index) => {
         if (index > 0 && sortOptions[index - 1]) {
             header.addEventListener('click', () => {
