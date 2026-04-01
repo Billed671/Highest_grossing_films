@@ -1,84 +1,175 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Highest Grossing Films - Interactive Database</title>
+    <title>Highest Grossing Films | Interactive Database</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <!-- Header Section -->
-        <header class="header">
-            <h1>🎬 Highest Grossing Films</h1>
-            <p>Interactive database of the world's most successful movies</p>
-        </header>
-
-        <!-- Statistics Section -->
-        <div class="stats-container">
-            <div class="stat-card">
-                <div class="stat-value" id="totalFilms">0</div>
-                <div class="stat-label">Total Films</div>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">🎬</span>
+                <span class="logo-text">FilmBox</span>
             </div>
-            <div class="stat-card">
-                <div class="stat-value" id="totalBoxOffice">$0</div>
-                <div class="stat-label">Total Box Office</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="avgBoxOffice">$0</div>
-                <div class="stat-label">Average Box Office</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="uniqueDirectors">0</div>
-                <div class="stat-label">Unique Directors</div>
+            <div class="nav-links">
+                <a href="#home" class="active">Home</a>
+                <a href="#database">Database</a>
+                <a href="#about">About</a>
             </div>
         </div>
+    </nav>
 
-        <!-- Controls Section -->
-        <div class="controls">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="🔍 Search by title, director, or country...">
-            </div>
-            <div class="filters">
-                <select id="yearFilter">
-                    <option value="all">All Years</option>
-                </select>
-                <select id="sortBy">
-                    <option value="box_office_desc">Sort by Box Office (Highest)</option>
-                    <option value="box_office_asc">Sort by Box Office (Lowest)</option>
-                    <option value="year_desc">Sort by Year (Newest)</option>
-                    <option value="year_asc">Sort by Year (Oldest)</option>
-                    <option value="title_asc">Sort by Title (A-Z)</option>
-                </select>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                Highest Grossing
+                <span class="gradient-text">Films</span>
+            </h1>
+            <p class="hero-subtitle">
+                Explore the most successful movies in cinema history.<br>
+                Sort, filter, and discover box office giants.
+            </p>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-value" id="heroTotalFilms">0</div>
+                    <div class="hero-stat-label">Total Films</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value" id="heroTotalRevenue">$0</div>
+                    <div class="hero-stat-label">Total Revenue</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value" id="heroAvgRevenue">$0</div>
+                    <div class="hero-stat-label">Average Revenue</div>
+                </div>
             </div>
         </div>
+    </section>
 
-        <!-- Films Table -->
-        <div class="table-container">
-            <table id="filmsTable">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Year</th>
-                        <th>Director</th>
-                        <th>Box Office</th>
-                        <th>Country</th>
-                    </tr>
-                </thead>
-                <tbody id="filmsTableBody">
-                    <tr>
-                        <td colspan="5" class="loading">Loading films data...</td>
-                    </tr>
-                </tbody>
-            </table>
+    <!-- Main Content -->
+    <main class="main-content" id="database">
+        <div class="container">
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <div class="search-section">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="🔍 Search by title, director, or country...">
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <label>Filter by Year</label>
+                        <select id="yearFilter">
+                            <option value="all">All Years</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Sort by</label>
+                        <select id="sortBy">
+                            <option value="box_office_desc">💰 Highest Box Office</option>
+                            <option value="box_office_asc">💰 Lowest Box Office</option>
+                            <option value="year_desc">📅 Newest First</option>
+                            <option value="year_asc">📅 Oldest First</option>
+                            <option value="title_asc">🔤 Title A-Z</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Items per page</label>
+                        <select id="itemsPerPage">
+                            <option value="10">10</option>
+                            <option value="25" selected>25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Count -->
+            <div class="results-info">
+                <span id="resultsCount">0</span> films found
+            </div>
+
+            <!-- Films Table -->
+            <div class="table-wrapper">
+                <table class="films-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Year</th>
+                            <th>Director</th>
+                            <th>Box Office</th>
+                            <th>Country</th>
+                        </tr>
+                    </thead>
+                    <tbody id="filmsTableBody">
+                        <tr>
+                            <td colspan="6" class="loading">
+                                <div class="spinner"></div>
+                                Loading films...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+                <button class="page-btn" id="prevBtn" disabled>← Previous</button>
+                <div class="page-numbers" id="pageNumbers"></div>
+                <button class="page-btn" id="nextBtn">Next →</button>
+            </div>
         </div>
+    </main>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <p>Data source: Wikipedia - Highest Grossing Films | Updated: <span id="updateDate"></span></p>
-        </footer>
-    </div>
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <h2 class="section-title">About This Project</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>This interactive database showcases the highest-grossing films of all time, with data sourced from Wikipedia. The project demonstrates modern web development practices including:</p>
+                    <ul>
+                        <li>📊 Dynamic data filtering and sorting</li>
+                        <li>🔍 Real-time search functionality</li>
+                        <li>📱 Responsive design for all devices</li>
+                        <li>⚡ Fast and interactive user experience</li>
+                    </ul>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="aboutTotalFilms">0</div>
+                        <div class="stat-desc">Films in Database</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="aboutDirectors">0</div>
+                        <div class="stat-desc">Unique Directors</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="aboutCountries">0</div>
+                        <div class="stat-desc">Countries</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Highest Grossing Films Database | Data sourced from Wikipedia</p>
+            <p class="update-date">Last updated: <span id="updateDate"></span></p>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
