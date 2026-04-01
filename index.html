@@ -49,7 +49,25 @@
                 </div>
                 <div class="hero-stat">
                     <div class="hero-stat-value" id="heroStdRevenue">$0</div>
-                    <div class="hero-stat-label">Standard Deviation Of Revenue</div>
+                    <div class="hero-stat-label">Std Deviation (Revenue)</div>
+                </div>
+            </div>
+            <div class="hero-stats" style="margin-top: 1.5rem;">
+                <div class="hero-stat">
+                    <div class="hero-stat-value" id="heroAvgRuntime">0</div>
+                    <div class="hero-stat-label">Average Runtime (min)</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value" id="heroMinRuntime">0</div>
+                    <div class="hero-stat-label">Shortest Runtime</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value" id="heroMaxRuntime">0</div>
+                    <div class="hero-stat-label">Longest Runtime</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value" id="heroStdRuntime">0</div>
+                    <div class="hero-stat-label">Std Deviation (Runtime)</div>
                 </div>
             </div>
         </div>
@@ -62,7 +80,7 @@
             <div class="control-panel">
                 <div class="search-section">
                     <div class="search-box">
-                        <input type="text" id="searchInput" placeholder="Search by title, director, or country...">
+                        <input type="text" id="searchInput" placeholder="Search by title, director, country, or language...">
                     </div>
                 </div>
                 
@@ -82,6 +100,8 @@
                             <option value="year_desc">Newest First</option>
                             <option value="year_asc">Oldest First</option>
                             <option value="title_asc">Title A-Z</option>
+                            <option value="runtime_desc">Longest Runtime</option>
+                            <option value="runtime_asc">Shortest Runtime</option>
                         </select>
                     </div>
                     
@@ -113,11 +133,12 @@
                             <th>Director</th>
                             <th>Box Office</th>
                             <th>Country</th>
-                        </tr>
-                    </thead>
+                            <th>Language</th>
+                            <th>Runtime (min)</th>
+                        </thead>
                     <tbody id="filmsTableBody">
                         <tr>
-                            <td colspan="6" class="loading">
+                            <td colspan="8" class="loading">
                                 <div class="spinner"></div>
                                 Loading films...
                             </td>
@@ -161,6 +182,10 @@
                     <div class="stat-item">
                         <div class="stat-number" id="aboutCountries">0</div>
                         <div class="stat-desc">Countries</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="aboutLanguages">0</div>
+                        <div class="stat-desc">Unique Languages</div>
                     </div>
                 </div>
             </div>
