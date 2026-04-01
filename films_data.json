@@ -5,7 +5,9 @@
     "release_year": 2009,
     "director": "James Cameron",
     "box_office": 2923710708.0,
-    "country": "United States, United Kingdom"
+    "country": "United States, United Kingdom",
+    "language": "English",
+    "running_time": 162
   },
   {
     "id": 2,
@@ -13,7 +15,9 @@
     "release_year": 2019,
     "director": "Anthony Russo, Joe Russo",
     "box_office": 2797501328.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 181
   },
   {
     "id": 3,
@@ -21,7 +25,9 @@
     "release_year": 2022,
     "director": "James Cameron",
     "box_office": 2334484620.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 192
   },
   {
     "id": 4,
@@ -29,7 +35,9 @@
     "release_year": 1997,
     "director": "James Cameron",
     "box_office": 2257906828.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 195
   },
   {
     "id": 5,
@@ -37,7 +45,9 @@
     "release_year": 2025,
     "director": "Jiaozi",
     "box_office": 2215690000.0,
-    "country": "China"
+    "country": "China",
+    "language": "Mandarin",
+    "running_time": 144
   },
   {
     "id": 6,
@@ -45,7 +55,9 @@
     "release_year": 2015,
     "director": "Abrams",
     "box_office": 2068223624.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 138
   },
   {
     "id": 7,
@@ -53,7 +65,9 @@
     "release_year": 2018,
     "director": "Anthony Russo, Joe Russo",
     "box_office": 2048359754.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 149
   },
   {
     "id": 8,
@@ -61,7 +75,9 @@
     "release_year": 2021,
     "director": "Jon Watts",
     "box_office": 1922598800.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 148
   },
   {
     "id": 9,
@@ -69,7 +85,9 @@
     "release_year": 2025,
     "director": "Jared Bush, Byron Howard",
     "box_office": 1866641191.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 108
   },
   {
     "id": 10,
@@ -77,7 +95,9 @@
     "release_year": 2024,
     "director": "Kelsey Mann",
     "box_office": 1698863816.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 96
   },
   {
     "id": 11,
@@ -85,7 +105,9 @@
     "release_year": 2015,
     "director": "Colin Trevorrow",
     "box_office": 1671537444.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 124
   },
   {
     "id": 12,
@@ -93,7 +115,9 @@
     "release_year": 2019,
     "director": "Jon Favreau",
     "box_office": 1656943394.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 118
   },
   {
     "id": 13,
@@ -101,7 +125,9 @@
     "release_year": 2012,
     "director": "Joss Whedon",
     "box_office": 1518815515.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 143
   },
   {
     "id": 14,
@@ -109,7 +135,9 @@
     "release_year": 2015,
     "director": "James Wan",
     "box_office": 1515341399.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 137
   },
   {
     "id": 15,
@@ -117,7 +145,9 @@
     "release_year": 2022,
     "director": "Joseph Kosinski",
     "box_office": 1495696292.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 130
   },
   {
     "id": 16,
@@ -125,7 +155,9 @@
     "release_year": 2025,
     "director": "James Cameron",
     "box_office": 1485829566.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 197
   },
   {
     "id": 17,
@@ -133,7 +165,9 @@
     "release_year": 2019,
     "director": "Chris Buck, Jennifer Lee",
     "box_office": 1450026933.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 103
   },
   {
     "id": 18,
@@ -141,7 +175,9 @@
     "release_year": 2023,
     "director": "Greta Gerwig",
     "box_office": 1447138421.0,
-    "country": "United States, United Kingdom"
+    "country": "United States, United Kingdom",
+    "language": "English",
+    "running_time": 114
   },
   {
     "id": 19,
@@ -149,7 +185,9 @@
     "release_year": 2015,
     "director": "Joss Whedon",
     "box_office": 1402809540.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 141
   },
   {
     "id": 20,
@@ -157,7 +195,9 @@
     "release_year": 2023,
     "director": "Aaron Horvath, Michael Jelenic",
     "box_office": 1360879735.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 92
   },
   {
     "id": 21,
@@ -165,7 +205,9 @@
     "release_year": 2018,
     "director": "Ryan Coogler",
     "box_office": 1347280838.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 134
   },
   {
     "id": 22,
@@ -173,7 +215,9 @@
     "release_year": 2011,
     "director": "David Yates",
     "box_office": 1342139727.0,
-    "country": "United Kingdom, United States"
+    "country": "United Kingdom, United States",
+    "language": "English",
+    "running_time": 130
   },
   {
     "id": 23,
@@ -181,7 +225,9 @@
     "release_year": 2024,
     "director": "Shawn Levy",
     "box_office": 1338073645.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 128
   },
   {
     "id": 24,
@@ -189,7 +235,9 @@
     "release_year": 2017,
     "director": "Rian Johnson",
     "box_office": 1332539889.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 152
   },
   {
     "id": 25,
@@ -197,7 +245,9 @@
     "release_year": 2018,
     "director": "Bayona",
     "box_office": 1308476166.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 128
   },
   {
     "id": 26,
@@ -205,7 +255,9 @@
     "release_year": 2013,
     "director": "Chris Buck, Jennifer Lee",
     "box_office": 1290000000.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 102
   },
   {
     "id": 27,
@@ -213,7 +265,9 @@
     "release_year": 2017,
     "director": "Bill Condon",
     "box_office": 1263521126.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 129
   },
   {
     "id": 28,
@@ -221,7 +275,9 @@
     "release_year": 2018,
     "director": "Brad Bird",
     "box_office": 1242805359.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 118
   },
   {
     "id": 29,
@@ -229,7 +285,9 @@
     "release_year": 2017,
     "director": "Gary Gray",
     "box_office": 1238764765.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 136
   },
   {
     "id": 30,
@@ -237,7 +295,9 @@
     "release_year": 2013,
     "director": "Shane Black",
     "box_office": 1214811252.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 131
   },
   {
     "id": 31,
@@ -245,7 +305,9 @@
     "release_year": 2015,
     "director": "Pierre Coffin, Kyle Balda",
     "box_office": 1159444662.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 91
   },
   {
     "id": 32,
@@ -253,7 +315,9 @@
     "release_year": 2016,
     "director": "Anthony Russo, Joe Russo",
     "box_office": 1153337496.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 147
   },
   {
     "id": 33,
@@ -261,7 +325,9 @@
     "release_year": 2018,
     "director": "James Wan",
     "box_office": 1148528393.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 143
   },
   {
     "id": 34,
@@ -269,7 +335,9 @@
     "release_year": 2003,
     "director": "Peter Jackson",
     "box_office": 1147997407.0,
-    "country": "New Zealand, Germany, United States"
+    "country": "New Zealand, Germany, United States",
+    "language": "English",
+    "running_time": 201
   },
   {
     "id": 35,
@@ -277,7 +345,9 @@
     "release_year": 2019,
     "director": "Jon Watts",
     "box_office": 1132679685.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 129
   },
   {
     "id": 36,
@@ -285,7 +355,9 @@
     "release_year": 2019,
     "director": "Anna Boden, Ryan Fleck",
     "box_office": 1128274794.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 124
   },
   {
     "id": 37,
@@ -293,7 +365,9 @@
     "release_year": 2011,
     "director": "Michael Bay",
     "box_office": 1123794079.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 154
   },
   {
     "id": 38,
@@ -301,7 +375,9 @@
     "release_year": 2012,
     "director": "Sam Mendes",
     "box_office": 1108594137.0,
-    "country": "United Kingdom, United States"
+    "country": "United Kingdom, United States",
+    "language": "English",
+    "running_time": 143
   },
   {
     "id": 39,
@@ -309,7 +385,9 @@
     "release_year": 2014,
     "director": "Michael Bay",
     "box_office": 1104054072.0,
-    "country": "United States, China"
+    "country": "United States, China",
+    "language": "English",
+    "running_time": 165
   },
   {
     "id": 40,
@@ -317,7 +395,9 @@
     "release_year": 2012,
     "director": "Christopher Nolan",
     "box_office": 1081169825.0,
-    "country": "United States, United Kingdom"
+    "country": "United States, United Kingdom",
+    "language": "English",
+    "running_time": 164
   },
   {
     "id": 41,
@@ -325,7 +405,9 @@
     "release_year": 2019,
     "director": "Todd Phillips",
     "box_office": 1074458282.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 122
   },
   {
     "id": 42,
@@ -333,7 +415,9 @@
     "release_year": 2019,
     "director": "Abrams",
     "box_office": 1074144248.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 142
   },
   {
     "id": 43,
@@ -341,7 +425,9 @@
     "release_year": 2019,
     "director": "Josh Cooley",
     "box_office": 1073394593.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 100
   },
   {
     "id": 44,
@@ -349,7 +435,9 @@
     "release_year": 2010,
     "director": "Lee Unkrich",
     "box_office": 1066970811.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 103
   },
   {
     "id": 45,
@@ -357,7 +445,9 @@
     "release_year": 2006,
     "director": "Gore Verbinski",
     "box_office": 1066179747.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 151
   },
   {
     "id": 46,
@@ -365,7 +455,9 @@
     "release_year": 2024,
     "director": "David Derrick Jr, Jason Hand, Dana Ledoux Miller",
     "box_office": 1059242164.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 100
   },
   {
     "id": 47,
@@ -373,7 +465,9 @@
     "release_year": 2016,
     "director": "Gareth Edwards",
     "box_office": 1057420387.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 134
   },
   {
     "id": 48,
@@ -381,7 +475,9 @@
     "release_year": 2019,
     "director": "Guy Ritchie",
     "box_office": 1050693953.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 128
   },
   {
     "id": 49,
@@ -389,7 +485,9 @@
     "release_year": 1999,
     "director": "George Lucas",
     "box_office": 1046515409.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 134
   },
   {
     "id": 50,
@@ -397,6 +495,8 @@
     "release_year": 2011,
     "director": "Rob Marshall",
     "box_office": 1045713802.0,
-    "country": "United States"
+    "country": "United States",
+    "language": "English",
+    "running_time": 137
   }
 ]
