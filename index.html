@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Highest Grossing Films | Interactive Database</title>
+    <title>Highest Grossing Films</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -13,7 +13,7 @@
         <div class="nav-container">
             <div class="logo">
                 <span class="logo-icon">🎬</span>
-                <span class="logo-text">FilmBox</span>
+                <span class="logo-text">Highest Grossing Films</span>
             </div>
             <div class="nav-links">
                 <a href="#home" class="active">Home</a>
@@ -31,7 +31,7 @@
                 <span class="gradient-text">Films</span>
             </h1>
             <p class="hero-subtitle">
-                Explore the most successful movies in cinema history.<br>
+                Here're the most successful movies ever.<br>
                 Sort, filter, and discover box office giants.
             </p>
             <div class="hero-stats">
@@ -47,6 +47,10 @@
                     <div class="hero-stat-value" id="heroAvgRevenue">$0</div>
                     <div class="hero-stat-label">Average Revenue</div>
                 </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value" id="heroStdRevenue">$0</div>
+                    <div class="hero-stat-label">Standard Deviation Of Revenue</div>
+                </div>
             </div>
         </div>
     </section>
@@ -58,7 +62,7 @@
             <div class="control-panel">
                 <div class="search-section">
                     <div class="search-box">
-                        <input type="text" id="searchInput" placeholder="🔍 Search by title, director, or country...">
+                        <input type="text" id="searchInput" placeholder="Search by title, director, or country...">
                     </div>
                 </div>
                 
@@ -166,7 +170,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2024 Highest Grossing Films Database | Data sourced from Wikipedia</p>
+            <p>&copy; 2026 Highest Grossing Films Database | Data sourced from Wikipedia</p>
             <p class="update-date">Last updated: <span id="updateDate"></span></p>
         </div>
     </footer>
