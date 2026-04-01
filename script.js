@@ -1,55 +1,72 @@
-// script.js
+// Global variables
 let allFilms = [];
-let filteredFilms = [];
+let currentPage = 1;
+let itemsPerPage = 25;
 
-// Load data from JSON file
+// Load data on page load
+document.addEventListener('DOMContentLoaded', () => {
+    loadData();
+    setupEventListeners();
+});
+
+// Load JSON data
 async function loadData() {
     try {
         const response = await fetch('films_data.json');
         allFilms = await response.json();
-        filteredFilms = [...allFilms];
         
         // Update statistics
         updateStatistics();
         
-        // Populate year filter
+        // Populate filters
         populateYearFilter();
         
-        // Display films
-        displayFilms();
+        // Display data
+        filterAndDisplay();
         
-        // Update footer date
+        // Update update date
         document.getElementById('updateDate').textContent = new Date().toLocaleDateString();
         
     } catch (error) {
         console.error('Error loading data:', error);
-        document.getElementById('filmsTableBody').innerHTML = 
-            '<tr><td colspan="5" class="loading">❌ Error loading data. Please check the JSON file.</td></tr>';
+        document.getElementById('filmsTableBody').innerHTML = `
+            <tr>
+                <td colspan="6" class="loading">
+                    ❌ Error loading data. Please check the JSON file.
+                </td>
+            </tr>
+        `;
     }
 }
 
-// Update statistics cards
+// Update statistics displays
 function updateStatistics() {
     const totalFilms = allFilms.length;
-    const totalBoxOffice = allFilms.reduce((sum, film) => sum + (film.box_office || 0), 0);
-    const avgBoxOffice = totalFilms > 0 ? totalBoxOffice / totalFilms : 0;
-    const uniqueDirectors = new Set(allFilms.map(film => film.director).filter(d => d && d !== 'Unknown')).size;
+    const totalRevenue = allFilms.reduce((sum, film) => sum + (film.box_office || 0), 0);
+    const avgRevenue = totalFilms > 0 ? totalRevenue / totalFilms : 0;
+    const uniqueDirectors = new Set(allFilms.map(f => f.director).filter(d => d && d !== 'Unknown')).size;
+    const uniqueCountries = new Set(allFilms.map(f => f.country).filter(c => c && c !== 'Unknown')).size;
     
-    document.getElementById('totalFilms').textContent = totalFilms;
-    document.getElementById('totalBoxOffice').textContent = formatCurrency(totalBoxOffice);
-    document.getElementById('avgBoxOffice').textContent = formatCurrency(avgBoxOffice);
-    document.getElementById('uniqueDirectors').textContent = uniqueDirectors;
+    // Hero section stats
+    document.getElementById('heroTotalFilms').textContent = totalFilms;
+    document.getElementById('heroTotalRevenue').textContent = formatCurrency(totalRevenue);
+    document.getElementById('heroAvgRevenue').textContent = formatCurrency(avgRevenue);
+    
+    // About section stats
+    document.getElementById('aboutTotalFilms').textContent = totalFilms;
+    document.getElementById('aboutDirectors').textContent = uniqueDirectors;
+    document.getElementById('aboutCountries').textContent = uniqueCountries;
 }
 
 // Format currency
 function formatCurrency(value) {
-    if (!value) return '$0';
+    if (!value || value === 0) return '$0';
     return '$' + value.toLocaleString();
 }
 
-// Populate year filter dropdown
+// Populate year filter
 function populateYearFilter() {
-    const years = [...new Set(allFilms.map(film => film.release_year).filter(y => y))];
+    const years = [...new Set(allFilms.map(f => f.release_year).filter(y => y))];
     years.sort((a, b) => b - a);
     
     const yearFilter = document.getElementById('yearFilter');
@@ -61,21 +78,71 @@ function populateYearFilter() {
     });
 }
 
+// Filter and sort films
+function filterAndDisplay() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const yearFilter = document.getElementById('yearFilter').value;
+    const sortBy = document.getElementById('sortBy').value;
+    
+    // Apply filters
+    let filtered = allFilms.filter(film => {
+        const matchesSearch = searchTerm === '' ||
+            (film.title && film.title.toLowerCase().includes(searchTerm)) ||
+            (film.director && film.director.toLowerCase().includes(searchTerm)) ||
+            (film.country && film.country.toLowerCase().includes(searchTerm));
+        
+        const matchesYear = yearFilter === 'all' || film.release_year == yearFilter;
+        
+        return matchesSearch && matchesYear;
+    });
+    
+    // Apply sorting
+    switch(sortBy) {
+        case 'box_office_desc':
+            filtered.sort((a, b) => (b.box_office || 0) - (a.box_office || 0));
+            break;
+        case 'box_office_asc':
+            filtered.sort((a, b) => (a.box_office || 0) - (b.box_office || 0));
+            break;
+        case 'year_desc':
+            filtered.sort((a, b) => (b.release_year || 0) - (a.release_year || 0));
+            break;
+        case 'year_asc':
+            filtered.sort((a, b) => (a.release_year || 0) - (b.release_year || 0));
+            break;
+        case 'title_asc':
+            filtered.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+            break;
+    }
+    
+    // Update results count
+    document.getElementById('resultsCount').textContent = filtered.length;
+    
+    // Paginate and display
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const paginated = filtered.slice(start, end);
+    
+    displayFilms(paginated, start);
+    updatePagination(filtered.length);
+}
+
 // Display films in table
-function displayFilms() {
+function displayFilms(films, startIndex) {
     const tbody = document.getElementById('filmsTableBody');
     
-    if (filteredFilms.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" class="loading">No films found matching your criteria.</td></tr>';
+    if (films.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="loading">No films found matching your criteria.</td></tr>';
         return;
     }
     
-    tbody.innerHTML = filteredFilms.map(film => `
+    tbody.innerHTML = films.map((film, index) => `
         <tr>
+            <td>${startIndex + index + 1}</td>
             <td><strong>${escapeHtml(film.title || 'N/A')}</strong></td>
             <td>${film.release_year || 'N/A'}</td>
             <td>${escapeHtml(film.director || 'Unknown')}</td>
-            <td>${formatCurrency(film.box_office)}</td>
+            <td class="text-success">${formatCurrency(film.box_office)}</td>
             <td>${escapeHtml(film.country || 'Unknown')}</td>
         </tr>
     `).join('');
@@ -88,66 +155,90 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-// Filter and sort films
-function filterAndSortFilms() {
-    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-    const yearFilter = document.getElementById('yearFilter').value;
-    const sortBy = document.getElementById('sortBy').value;
+// Update pagination controls
+function updatePagination(totalItems) {
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const paginationDiv = document.getElementById('pageNumbers');
     
-    // Apply filters
-    filteredFilms = allFilms.filter(film => {
-        // Search filter
-        const matchesSearch = searchTerm === '' || 
-            (film.title && film.title.toLowerCase().includes(searchTerm)) ||
-            (film.director && film.director.toLowerCase().includes(searchTerm)) ||
-            (film.country && film.country.toLowerCase().includes(searchTerm));
-        
-        // Year filter
-        const matchesYear = yearFilter === 'all' || film.release_year == yearFilter;
-        
-        return matchesSearch && matchesYear;
-    });
+    // Clear existing
+    paginationDiv.innerHTML = '';
     
-    // Apply sorting
-    switch(sortBy) {
-        case 'box_office_desc':
-            filteredFilms.sort((a, b) => (b.box_office || 0) - (a.box_office || 0));
-            break;
-        case 'box_office_asc':
-            filteredFilms.sort((a, b) => (a.box_office || 0) - (b.box_office || 0));
-            break;
-        case 'year_desc':
-            filteredFilms.sort((a, b) => (b.release_year || 0) - (a.release_year || 0));
-            break;
-        case 'year_asc':
-            filteredFilms.sort((a, b) => (a.release_year || 0) - (b.release_year || 0));
-            break;
-        case 'title_asc':
-            filteredFilms.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
-            break;
-        default:
-            filteredFilms.sort((a, b) => (b.box_office || 0) - (a.box_office || 0));
+    // Show limited page numbers
+    const maxVisible = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+    
+    if (endPage - startPage + 1 < maxVisible) {
+        startPage = Math.max(1, endPage - maxVisible + 1);
     }
     
-    // Display filtered and sorted films
-    displayFilms();
+    for (let i = startPage; i <= endPage; i++) {
+        const pageBtn = document.createElement('button');
+        pageBtn.className = `page-number ${i === currentPage ? 'active' : ''}`;
+        pageBtn.textContent = i;
+        pageBtn.onclick = () => {
+            currentPage = i;
+            filterAndDisplay();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+        paginationDiv.appendChild(pageBtn);
+    }
+    
+    // Update prev/next buttons
+    document.getElementById('prevBtn').disabled = currentPage === 1;
+    document.getElementById('nextBtn').disabled = currentPage === totalPages;
 }
 
-// Add event listeners
-document.getElementById('searchInput').addEventListener('input', filterAndSortFilms);
-document.getElementById('yearFilter').addEventListener('change', filterAndSortFilms);
-document.getElementById('sortBy').addEventListener('change', filterAndSortFilms);
-
-// Add click sorting to table headers
-document.querySelectorAll('th').forEach((th, index) => {
-    th.addEventListener('click', () => {
-        const sortOptions = ['title_asc', 'year_desc', 'director', 'box_office_desc', 'country'];
-        if (sortOptions[index]) {
-            document.getElementById('sortBy').value = sortOptions[index];
-            filterAndSortFilms();
+// Setup event listeners
+function setupEventListeners() {
+    document.getElementById('searchInput').addEventListener('input', () => {
+        currentPage = 1;
+        filterAndDisplay();
+    });
+    
+    document.getElementById('yearFilter').addEventListener('change', () => {
+        currentPage = 1;
+        filterAndDisplay();
+    });
+    
+    document.getElementById('sortBy').addEventListener('change', () => {
+        currentPage = 1;
+        filterAndDisplay();
+    });
+    
+    document.getElementById('itemsPerPage').addEventListener('change', (e) => {
+        itemsPerPage = parseInt(e.target.value);
+        currentPage = 1;
+        filterAndDisplay();
+    });
+    
+    document.getElementById('prevBtn').addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            filterAndDisplay();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     });
-});
-
-// Load data when page loads
-document.addEventListener('DOMContentLoaded', loadData);
+    
+    document.getElementById('nextBtn').addEventListener('click', () => {
+        const totalItems = document.getElementById('resultsCount').textContent;
+        const totalPages = Math.ceil(parseInt(totalItems) / itemsPerPage);
+        if (currentPage < totalPages) {
+            currentPage++;
+            filterAndDisplay();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    });
+    
+    // Table header sorting
+    const headers = document.querySelectorAll('.films-table th');
+    const sortOptions = ['title_asc', 'year_desc', 'box_office_desc', 'country'];
+    headers.forEach((header, index) => {
+        if (index > 0 && sortOptions[index - 1]) {
+            header.addEventListener('click', () => {
+                document.getElementById('sortBy').value = sortOptions[index - 1];
+                filterAndDisplay();
+            });
+        }
+    });
+}
