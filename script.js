@@ -32,7 +32,7 @@ async function loadData() {
         document.getElementById('filmsTableBody').innerHTML = `
              <tr>
                 <td colspan="8" class="loading">
-                    ❌ Error loading data. Please check the JSON file.
+                    Error loading data. Please check the JSON file.
                  </td>
              </tr>
         `;
@@ -180,6 +180,9 @@ function filterAndDisplay() {
             break;
         case 'title_asc':
             filtered.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+            break;
+        case 'title_desc:'
+            filtered.sort((a, b) => (b.title || '').localeCompare(a.title || ''));
             break;
         case 'runtime_desc':
             filtered.sort((a, b) => (b.running_time || 0) - (a.running_time || 0));
