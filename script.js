@@ -30,11 +30,11 @@ async function loadData() {
     } catch (error) {
         console.error('Error loading data:', error);
         document.getElementById('filmsTableBody').innerHTML = `
-            <tr>
+             <tr>
                 <td colspan="8" class="loading">
                     ❌ Error loading data. Please check the JSON file.
-                </td>
-            </tr>
+                 </td>
+             </tr>
         `;
     }
 }
@@ -49,6 +49,26 @@ function calculateStdDev(values) {
     const variance = squaredDiffs.reduce((a, b) => a + b, 0) / n;
     
     return Math.sqrt(variance);
+}
+
+// Extract unique values from comma-separated strings
+function extractUniqueValues(films, fieldName) {
+    const allValues = new Set();
+    
+    films.forEach(film => {
+        let value = film[fieldName];
+        if (value && value !== 'Unknown') {
+            // Split by comma and trim whitespace
+            const parts = value.split(',').map(part => part.trim());
+            parts.forEach(part => {
+                if (part && part !== 'Unknown') {
+                    allValues.add(part);
+                }
+            });
+        }
+    });
+    
+    return allValues;
 }
 
 // Update statistics displays
@@ -67,10 +87,10 @@ function updateStatistics() {
     const avgRuntime = runtimeValues.length > 0 ? totalRuntime / runtimeValues.length : 0;
     const stdRuntime = calculateStdDev(runtimeValues);
     
-    // Unique values for about section
-    const uniqueDirectors = new Set(allFilms.map(f => f.director).filter(d => d && d !== 'Unknown')).size;
-    const uniqueCountries = new Set(allFilms.map(f => f.country).filter(c => c && c !== 'Unknown')).size;
-    const uniqueLanguages = new Set(allFilms.map(f => f.language).filter(l => l && l !== 'Unknown')).size;
+    // Unique values for about section - USING IMPROVED FUNCTION
+    const uniqueDirectors = extractUniqueValues(allFilms, 'director').size;
+    const uniqueCountries = extractUniqueValues(allFilms, 'country').size;
+    const uniqueLanguages = extractUniqueValues(allFilms, 'language').size;
     
     // Hero section stats - Box Office
     document.getElementById('heroTotalFilms').textContent = totalFilms;
@@ -88,6 +108,15 @@ function updateStatistics() {
     document.getElementById('aboutDirectors').textContent = uniqueDirectors;
     document.getElementById('aboutCountries').textContent = uniqueCountries;
     document.getElementById('aboutLanguages').textContent = uniqueLanguages;
+    
+    // Debug output to console (optional - remove in production)
+    console.log('Statistics updated:', {
+        totalFilms,
+        uniqueDirectors,
+        uniqueCountries,
+        uniqueLanguages,
+        sampleDirectors: Array.from(uniqueDirectors).slice(0, 5)
+    });
 }
 
 // Format currency
@@ -288,7 +317,7 @@ function setupEventListeners() {
         1: 'title_asc',
         2: 'year_desc',
         4: 'box_office_desc',
-        6: 'runtime_desc'
+        7: 'runtime_desc'
     };
     
     headers.forEach((header, index) => {
