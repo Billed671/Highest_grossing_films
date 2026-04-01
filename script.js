@@ -55,35 +55,33 @@ function calculateStdDev(values) {
 function updateStatistics() {
     const totalFilms = allFilms.length;
     
-    // Revenue statistics
-    const revenues = allFilms.map(f => f.box_office || 0).filter(r => r > 0);
-    const totalRevenue = revenues.reduce((sum, r) => sum + r, 0);
+    // Box office statistics
+    const boxOfficeValues = allFilms.map(f => f.box_office || 0).filter(v => v > 0);
+    const totalRevenue = boxOfficeValues.reduce((sum, val) => sum + val, 0);
     const avgRevenue = totalFilms > 0 ? totalRevenue / totalFilms : 0;
-    const stdRevenue = calculateStdDev(revenues);
+    const stdRevenue = calculateStdDev(boxOfficeValues);
     
     // Runtime statistics
-    const runtimes = allFilms.map(f => f.running_time).filter(r => r && r > 0);
-    const avgRuntime = runtimes.length > 0 ? runtimes.reduce((a, b) => a + b, 0) / runtimes.length : 0;
-    const minRuntime = runtimes.length > 0 ? Math.min(...runtimes) : 0;
-    const maxRuntime = runtimes.length > 0 ? Math.max(...runtimes) : 0;
-    const stdRuntime = calculateStdDev(runtimes);
+    const runtimeValues = allFilms.map(f => f.running_time || 0).filter(v => v > 0);
+    const totalRuntime = runtimeValues.reduce((sum, val) => sum + val, 0);
+    const avgRuntime = runtimeValues.length > 0 ? totalRuntime / runtimeValues.length : 0;
+    const stdRuntime = calculateStdDev(runtimeValues);
     
     // Unique values for about section
     const uniqueDirectors = new Set(allFilms.map(f => f.director).filter(d => d && d !== 'Unknown')).size;
     const uniqueCountries = new Set(allFilms.map(f => f.country).filter(c => c && c !== 'Unknown')).size;
     const uniqueLanguages = new Set(allFilms.map(f => f.language).filter(l => l && l !== 'Unknown')).size;
     
-    // Hero section - Revenue stats
+    // Hero section stats - Box Office
     document.getElementById('heroTotalFilms').textContent = totalFilms;
     document.getElementById('heroTotalRevenue').textContent = formatCurrency(totalRevenue);
     document.getElementById('heroAvgRevenue').textContent = formatCurrency(avgRevenue);
     document.getElementById('heroStdRevenue').textContent = formatCurrency(stdRevenue);
     
-    // Hero section - Runtime stats
-    document.getElementById('heroAvgRuntime').textContent = Math.round(avgRuntime);
-    document.getElementById('heroMinRuntime').textContent = minRuntime;
-    document.getElementById('heroMaxRuntime').textContent = maxRuntime;
-    document.getElementById('heroStdRuntime').textContent = Math.round(stdRuntime);
+    // Hero section stats - Runtime
+    document.getElementById('heroTotalRuntime').textContent = formatNumber(totalRuntime);
+    document.getElementById('heroAvgRuntime').textContent = formatNumber(avgRuntime);
+    document.getElementById('heroStdRuntime').textContent = formatNumber(stdRuntime);
     
     // About section stats
     document.getElementById('aboutTotalFilms').textContent = totalFilms;
@@ -95,17 +93,13 @@ function updateStatistics() {
 // Format currency
 function formatCurrency(value) {
     if (!value || value === 0) return '$0';
-    return '$' + value.toLocaleString();
+    return '$' + Math.round(value).toLocaleString();
 }
 
-// Format runtime
-function formatRuntime(minutes) {
-    if (!minutes || minutes === 0) return 'N/A';
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    if (hours === 0) return `${mins} min`;
-    if (mins === 0) return `${hours}h`;
-    return `${hours}h ${mins}m`;
+// Format number
+function formatNumber(value) {
+    if (!value || value === 0) return '0';
+    return Math.round(value).toLocaleString();
 }
 
 // Populate year filter
@@ -197,8 +191,8 @@ function displayFilms(films, startIndex) {
             <td>${escapeHtml(film.director || 'Unknown')}</td>
             <td class="text-success">${formatCurrency(film.box_office)}</td>
             <td>${escapeHtml(film.country || 'Unknown')}</td>
-            <td class="language-text">${escapeHtml(film.language || 'Unknown')}</td>
-            <td><span class="runtime-badge">${formatRuntime(film.running_time)}</span></td>
+            <td>${escapeHtml(film.language || 'Unknown')}</td>
+            <td>${film.running_time ? film.running_time.toLocaleString() : 'N/A'}</td>
         </tr>
     `).join('');
 }
@@ -279,8 +273,8 @@ function setupEventListeners() {
     });
     
     document.getElementById('nextBtn').addEventListener('click', () => {
-        const totalItems = document.getElementById('resultsCount').textContent;
-        const totalPages = Math.ceil(parseInt(totalItems) / itemsPerPage);
+        const totalItems = parseInt(document.getElementById('resultsCount').textContent);
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
         if (currentPage < totalPages) {
             currentPage++;
             filterAndDisplay();
@@ -290,11 +284,17 @@ function setupEventListeners() {
     
     // Table header sorting
     const headers = document.querySelectorAll('.films-table th');
-    const sortOptions = ['title_asc', 'year_desc', 'box_office_desc', 'runtime_desc'];
+    const sortOptions = {
+        1: 'title_asc',
+        2: 'year_desc',
+        4: 'box_office_desc',
+        6: 'runtime_desc'
+    };
+    
     headers.forEach((header, index) => {
-        if (index > 0 && sortOptions[index - 1]) {
+        if (sortOptions[index]) {
             header.addEventListener('click', () => {
-                document.getElementById('sortBy').value = sortOptions[index - 1];
+                document.getElementById('sortBy').value = sortOptions[index];
                 filterAndDisplay();
             });
         }
