@@ -181,6 +181,9 @@ function filterAndDisplay() {
         case 'title_asc':
             filtered.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
             break;
+        case 'title_desc':
+            filtered.sort((a, b) => (b.title || '').localeCompare(a.title || ''));
+            break;
         case 'runtime_desc':
             filtered.sort((a, b) => (b.running_time || 0) - (a.running_time || 0));
             break;
